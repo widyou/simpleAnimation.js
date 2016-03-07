@@ -11,26 +11,24 @@
 		var startLeftValue = getStyle(target, 'left', true);
 		var startTopValue = getStyle(target, 'top', true);
 		
-		var a = new Animation({
+		var a1 = new Animation({
 			callback: function(rate){
 				var l = startLeftValue + (300*rate);
 				//console.log(l)
 				target.style.left = l + 'px';
 			},
 			duration: 1000,
-			animationCallbackFunc: animationCallback.slowFastSlow
-		});
-		a.run();
-		var b = new Animation({
+			animationMode: AnimationModes.slowFastSlow
+		}).run();
+		var a2 = new Animation({
 			callback: function(rate){
 				var t = startTopValue + (200*rate);
 				//console.log(l)
 				target.style.top = t + 'px';
 			},
 			duration: 1000,
-			animationCallbackFunc: animationCallback.fastSlowFast
-		});
-		b.run();
+			animationMode: AnimationModes.fastSlowFast
+		}).run();
 	}
 </script>
 <style type="text/css">

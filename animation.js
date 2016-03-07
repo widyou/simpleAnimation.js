@@ -20,7 +20,7 @@ function getStyle(oElm, css3Prop, onlyNum) {
 	return strValue;
 }
 
-var animationCallback = {
+var AnimationModes = {
 	normal: function(rate) {
 		return rate;
 	},
@@ -32,16 +32,16 @@ var animationCallback = {
 	},
 	fastSlowFast: function(rate) {
 		if (rate <= 0.5) {
-			return animationCallback.fastToSlow(rate*2)/2;
+			return AnimationModes.fastToSlow(rate*2)/2;
 		} else {
-			return (animationCallback.slowToFast((rate-0.5)*2)/2)+0.5;
+			return (AnimationModes.slowToFast((rate-0.5)*2)/2)+0.5;
 		}
 	},
 	slowFastSlow: function(rate) {
 		if (rate <= 0.5) {
-			return animationCallback.slowToFast(rate*2)/2;
+			return AnimationModes.slowToFast(rate*2)/2;
 		} else {
-			return (animationCallback.fastToSlow((rate-0.5)*2)/2)+0.5;
+			return (AnimationModes.fastToSlow((rate-0.5)*2)/2)+0.5;
 		}
 	}
 };
@@ -54,21 +54,20 @@ function Animation(options) {
 	}
 	this.callback = options.callback;
 	this.duration = options.duration || 500;
-	this.animationCallbackFunc = options.animationCallbackFunc || animationCallback.normal;
+	this.animationMode = options.animationMode || AnimationModes.normal;
 	this.fps = options.fps || 30;
 	this.frameInterval = 1000/this.fps;
 	this.rateOrigin = 0;
 }
 Animation.prototype = (function() {
-	var getNowPercent = function (startTime, duration, animationCallback) {
+	var getNowPercent = function (startTime, duration, animationMode) {
 		// 현재 시간 비중 (현재 지나간 시간/전체 소요시간)
 		this.rateOrigin = (Date.now()-startTime)/duration;
 		// 가중치계산
 		var rate = this.rateOrigin;
-		if (typeof animationCallback !== 'undefined' && animationCallback.constructor == Function) {
-			rate = animationCallback.call(window, this.rateOrigin);
+		if (typeof animationMode !== 'undefined' && animationMode.constructor == Function) {
+			rate = animationMode.call(window, this.rateOrigin);
 		}
-		//console.log((Date.now()-startTime) + ' / ' + duration +' = '+this.rateOrigin + ' => ' + rate);
 		return rate;
 	};
 	return {
@@ -79,7 +78,7 @@ Animation.prototype = (function() {
 		},
 		animateOneFrame: function() {
 			// 현재위치 계산
-			var rate = getNowPercent.call(this, this.startTime, this.duration, this.animationCallbackFunc);
+			var rate = getNowPercent.call(this, this.startTime, this.duration, this.animationMode);
 			// 콜백 한번 수행
 			this.callback.call(window, Math.min(rate, 1.0));
 			// 끝나지 않았을 경우 다음 실행값 세팅
