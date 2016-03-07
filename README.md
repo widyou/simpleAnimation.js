@@ -27,7 +27,7 @@ $ani(document.getElementById('targetElementId')).css({
 });
 ```
 ```javascript
-ani(document.getElementById('targetElementId')).fly({
+$ani(document.getElementById('targetElementId')).fly({
 	[300, 300],
 	duration: 1000,
 	movingMode: MovingModes.convexArc
