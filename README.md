@@ -2,7 +2,7 @@
 javascript animation을 연구하며 결과물로 만든 프로젝트
 
 ## 현재 가능한 코드
-1. 기본적인 Animation 클래스 사용
+1. 기본적인 Animation 클래스 사용 ([jsfiddle](https://jsfiddle.net/widyou/w4u5nhyc))
 ```javascript
 var target = document.getElementById('targetElementId');
 var startTopValue = getStyle(target, 'top', true);
@@ -15,7 +15,6 @@ var a1 = new Animation({
 	animationMode: AnimationModes.slowFastSlow // 움직이는 형태
 }).run();
 ```
-[jsfiddle](https://jsfiddle.net/widyou/w4u5nhyc)
 
 ## 앞으로 가능하게 될 코드
 ```javascript
