@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>animation</title>
+</head>
+<script type="text/javascript" src="animation.js"></script>
+<script type="text/javascript">
+	function onload() {
+		var target = document.getElementById('target1');
+		var startLeftValue = getStyle(target, 'left', true);
+		var startTopValue = getStyle(target, 'top', true);
+		
+		var a = new Animation({
+			callback: function(rate){
+				var l = startLeftValue + (300*rate);
+				//console.log(l)
+				target.style.left = l + 'px';
+			},
+			duration: 1000,
+			animationCallbackFunc: animationCallback.slowFastSlow
+		});
+		a.run();
+		var b = new Animation({
+			callback: function(rate){
+				var t = startTopValue + (200*rate);
+				//console.log(l)
+				target.style.top = t + 'px';
+			},
+			duration: 1000,
+			animationCallbackFunc: animationCallback.fastSlowFast
+		});
+		b.run();
+	}
+</script>
+<style type="text/css">
+	.target {
+		border: 1px black solid;
+		position: absolute;
+		width: 200px;
+		height: 200px;
+		top: 0px;
+		left: 150px;
+	}
+	.debug {
+		position: absolute;
+		display: block;
+		width: 100px;
+		height: 100px;
+		top: 0px;
+		left: 0px;
+	}
+</style>
+<body onload="onload();">
+	<div id="target1" class="target">
+		text
+	</div>
+</body>
+</html>
